@@ -12,12 +12,6 @@ activity$date<-as.POSIXct(activity$date)
 
 dailySteps<-aggregate(steps~date, data=activity, FUN = sum)
 
-path<-paste(getwd(),"/figures/",sep="")
-filename<-paste(path,"dailyStepsHist_NI.jpeg",sep="")
-jpeg(file=filename)
-        hist(dailySteps$steps, main = "Frequency of Steps per Day", xlab = "Steps per Day")
-dev.off()
-
 hist(dailySteps$steps, main = "Frequency of Steps per Day", xlab = "Steps per Day")
 
 print("Median steps per day")
@@ -31,12 +25,6 @@ mean(dailySteps$steps)
 ```{r}
 intervals<-aggregate(steps~interval, data=activity, 
         FUN = mean)
-
-filename<-paste(path,"avgStepsInterval_NI.jpeg",sep="")
-jpeg(file=filename)
-        plot(intervals$steps, type = "l", main = "Avg. steps per time interval",
-                xlab = "5-minute time interval", ylab = "Avg. steps")
-dev.off()
 
 plot(intervals$steps, type = "l", main = "Avg. steps per time interval",
      xlab = "5-minute time interval", ylab = "Avg. steps")
@@ -54,12 +42,6 @@ for(i in 1:nrow(activity)){
 }
 
 dailySteps<-aggregate(steps~date, data=activity, FUN = sum)
-
-filename<-paste(path,"dailyStepsHist_I.jpeg",sep="")
-jpeg(file=filename)
-        hist(dailySteps$steps, main = "Frequency of Steps per Day - Imputed NA's",
-             xlab = "Steps per Day")
-dev.off()
 
 hist(dailySteps$steps, main = "Frequency of Steps per Day - Imputed NA's", xlab = "Steps per Day")
 
@@ -79,15 +61,6 @@ activity$wDay <- factor(((activity$dow) %in% weekdays), levels=c(FALSE, TRUE), l
 
 intervals<-aggregate(steps~interval+wDay, data=activity, 
         FUN = mean)
-
-filename<-paste(path,"DOWComparison.jpeg",sep="")
-jpeg(file=filename)
-        par(mfrow=c(2,1))
-        plot(intervals$steps[intervals$wDay=="Weekday"], type = "l",main="Weekday",
-                ylab="Steps", xlim = c(min(intervals$steps),max(intervals$steps)))
-        plot(intervals$steps[intervals$wDay=="Weekend"], type = "l",main="Weekend",
-                ylab="Steps", xlim = c(min(intervals$steps),max(intervals$steps)))
-dev.off()
 
 par(mfrow=c(2,1))
 plot(intervals$steps[intervals$wDay=="Weekday"], type = "l",main="Weekday",
