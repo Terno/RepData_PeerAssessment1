@@ -12,6 +12,12 @@ activity$date<-as.POSIXct(activity$date)
 
 dailySteps<-aggregate(steps~date, data=activity, FUN = sum)
 
+path<-paste(getwd(),"/figures/",sep="")
+filename<-paste(path,"dailyStepsHist_NI.jpeg",sep="")
+jpeg(file=filename)
+        hist(dailySteps$steps, main = "Frequency of Steps per Day", xlab = "Steps per Day")
+dev.off()
+
 hist(dailySteps$steps, main = "Frequency of Steps per Day", xlab = "Steps per Day")
 
 print("Median steps per day")
@@ -20,18 +26,21 @@ print("Mean steps per day")
 mean(dailySteps$steps)
 
 ```
-![](figures/dailyStepsHist_NI.jpeg)<!-- -->
-
 
 ## Step 3 - Determine daily activity patterns (NA's Included)
 ```{r}
 intervals<-aggregate(steps~interval, data=activity, 
         FUN = mean)
 
+filename<-paste(path,"avgStepsInterval_NI.jpeg",sep="")
+jpeg(file=filename)
+        plot(intervals$steps, type = "l", main = "Avg. steps per time interval",
+                xlab = "5-minute time interval", ylab = "Avg. steps")
+dev.off()
+
 plot(intervals$steps, type = "l", main = "Avg. steps per time interval",
      xlab = "5-minute time interval", ylab = "Avg. steps")
 ```
-![](figures/avgStepsInterval_NI.jpeg)<!-- -->
 
 ## Step 4 - Impute missing values
 ```{r}
@@ -46,6 +55,12 @@ for(i in 1:nrow(activity)){
 
 dailySteps<-aggregate(steps~date, data=activity, FUN = sum)
 
+filename<-paste(path,"dailyStepsHist_I.jpeg",sep="")
+jpeg(file=filename)
+        hist(dailySteps$steps, main = "Frequency of Steps per Day - Imputed NA's",
+             xlab = "Steps per Day")
+dev.off()
+
 hist(dailySteps$steps, main = "Frequency of Steps per Day - Imputed NA's", xlab = "Steps per Day")
 
 print("Median steps per day - Imputed NA's")
@@ -54,7 +69,6 @@ print("Mean steps per day - Imputed NA's")
 mean(dailySteps$steps)
 
 ```
-![](figures/dailyStepsHist_I.jpeg)<!-- -->
 
 ## Step 5 - Compare weekday and weekend activity patterns - NA's Imputed
 ```{r}
@@ -66,11 +80,18 @@ activity$wDay <- factor(((activity$dow) %in% weekdays), levels=c(FALSE, TRUE), l
 intervals<-aggregate(steps~interval+wDay, data=activity, 
         FUN = mean)
 
+filename<-paste(path,"DOWComparison.jpeg",sep="")
+jpeg(file=filename)
+        par(mfrow=c(2,1))
+        plot(intervals$steps[intervals$wDay=="Weekday"], type = "l",main="Weekday",
+                ylab="Steps", xlim = c(min(intervals$steps),max(intervals$steps)))
+        plot(intervals$steps[intervals$wDay=="Weekend"], type = "l",main="Weekend",
+                ylab="Steps", xlim = c(min(intervals$steps),max(intervals$steps)))
+dev.off()
+
 par(mfrow=c(2,1))
 plot(intervals$steps[intervals$wDay=="Weekday"], type = "l",main="Weekday",
      ylab="Steps", xlim = c(min(intervals$steps),max(intervals$steps)))
 plot(intervals$steps[intervals$wDay=="Weekend"], type = "l",main="Weekend",
      ylab="Steps", xlim = c(min(intervals$steps),max(intervals$steps)))
 ```
-
-![](figures/DOWComparison.jpeg)<!-- -->
