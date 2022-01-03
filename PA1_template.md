@@ -20,6 +20,8 @@ print("Mean steps per day")
 mean(dailySteps$steps)
 
 ```
+![Plot1](https://github.com/Terno/RepData_PeerAssessment1/tree/master/figures/dailyStepsHist_NI.jpeg)
+
 
 ## Step 3 - Determine daily activity patterns (NA's Included)
 ```{r}
@@ -29,6 +31,7 @@ intervals<-aggregate(steps~interval, data=activity,
 plot(intervals$steps, type = "l", main = "Avg. steps per time interval",
      xlab = "5-minute time interval", ylab = "Avg. steps")
 ```
+![Plot2](https://github.com/Terno/RepData_PeerAssessment1/tree/master/figures/avgStepsInterval_NI.jpeg)
 
 ## Step 4 - Impute missing values
 ```{r}
@@ -51,6 +54,7 @@ print("Mean steps per day - Imputed NA's")
 mean(dailySteps$steps)
 
 ```
+![Plot3](https://github.com/Terno/RepData_PeerAssessment1/tree/master/figures/dailyStepsHist_I.jpeg)
 
 ## Step 5 - Compare weekday and weekend activity patterns - NA's Imputed
 ```{r}
@@ -68,3 +72,4 @@ plot(intervals$steps[intervals$wDay=="Weekday"], type = "l",main="Weekday",
 plot(intervals$steps[intervals$wDay=="Weekend"], type = "l",main="Weekend",
      ylab="Steps", xlim = c(min(intervals$steps),max(intervals$steps)))
 ```
+![Plot3](https://github.com/Terno/RepData_PeerAssessment1/tree/master/figures/DOWComparison.jpeg)
